@@ -58,9 +58,5 @@ typings/
 .env
 
 # Dev env
-/config/
-!/config/PROJECT-NAME.dev.json
-
 .idea/workspace.xml
 .idea/watcherTasks.xml
-access.log
