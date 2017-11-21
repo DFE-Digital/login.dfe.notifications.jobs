@@ -60,3 +60,5 @@ typings/
 # Dev env
 .idea/workspace.xml
 .idea/watcherTasks.xml
+
+/app_data/email
