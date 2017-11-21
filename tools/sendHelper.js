@@ -4,6 +4,7 @@ const loadConfig = async () => {
   return Promise.resolve({
     notifications: {
       migrationUrl: 'http://tools.test/migration',
+      interactionsUrl: 'http://tools.test/interactions',
       email: {
         type: 'disk',
       },
