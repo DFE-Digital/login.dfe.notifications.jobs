@@ -17,6 +17,7 @@ const data = {
   email: 'user.one@unit.test',
   code: 'TEST01',
   clientId: 'CLIENT1',
+  uid: '65432RFV',
 };
 
 describe('when processing a passwordreset_v1 job', () => {
@@ -77,7 +78,7 @@ describe('when processing a passwordreset_v1 job', () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][2]).toMatchObject({
-      returnUrl: `${config.notifications.interactionsUrl}/some-uuid/resetpassword/confirm?clientid=${data.clientId}`,
+      returnUrl: `${config.notifications.interactionsUrl}/some-uuid/resetpassword/${data.uid}/confirm?clientid=${data.clientId}`,
     });
   });
 
