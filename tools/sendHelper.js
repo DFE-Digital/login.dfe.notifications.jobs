@@ -7,6 +7,9 @@ const loadConfig = async () => {
       interactionsUrl: 'http://tools.test/interactions',
       email: {
         type: 'disk',
+        params: {
+          renderContent: true,
+        },
       },
     },
   });
