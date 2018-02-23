@@ -54,13 +54,13 @@ describe('When handling supportrequest_v1 job', () => {
     expect(emailSend.mock.calls[0][0]).toBe(jobData.email);
   });
 
-  it('then it should send email using supportRequest template', async () => {
+  it('then it should send email using support-request template', async () => {
     const handler = getHandler(config, logger);
 
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][1]).toBe('supportRequest');
+    expect(emailSend.mock.calls[0][1]).toBe('support-request');
   });
 
   it('then it should send email using request data as model', async () => {
@@ -74,6 +74,7 @@ describe('When handling supportrequest_v1 job', () => {
       email: jobData.email,
       phone: jobData.phone,
       message: jobData.message,
+      reference: jobData.reference,
     });
   });
 
