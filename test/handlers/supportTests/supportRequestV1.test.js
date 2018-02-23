@@ -51,7 +51,7 @@ describe('When handling supportrequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][0]).toBe(jobData.email);
+    expect(emailSend.mock.calls[0][0]).toBe(config.notifications.supportEmailAddress);
   });
 
   it('then it should send email using support-request template', async () => {
