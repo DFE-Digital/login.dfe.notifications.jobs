@@ -85,6 +85,6 @@ describe('when processing a passwordreset_v1 job', () => {
   it('then it should include a subject', async () =>{
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('Password reset');
+    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in: reset your password');
   });
 });
