@@ -44,11 +44,11 @@ describe('when processing a migrationinvite_v1 job', () => {
     expect(email.getEmailAdapter.mock.calls[0][1]).toBe(logger);
   });
 
-  it('then it should send an email using the invitation template', async () => {
+  it('then it should send an email using the migration template', async () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls.length).toBe(1);
-    expect(emailSend.mock.calls[0][1]).toBe('invitation');
+    expect(emailSend.mock.calls[0][1]).toBe('migration');
   });
 
   it('then it should send an email to the user', async () => {
@@ -77,6 +77,6 @@ describe('when processing a migrationinvite_v1 job', () => {
   it('then it should include a subject', async () =>{
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('You have been invited to unit tests using DfE Sign in');
+    expect(emailSend.mock.calls[0][3]).toBe('The way you access Key to Success is changing');
   });
 });
