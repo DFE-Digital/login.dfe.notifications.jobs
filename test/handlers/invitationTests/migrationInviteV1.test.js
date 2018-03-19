@@ -17,6 +17,8 @@ const data = {
   serviceWelcomeMessage: 'welcome user one',
   serviceWelcomeMessageDescription: 'this is a unit test',
   serviceName: 'unit tests',
+  invitationId: 'test-invite-id',
+  code: 'ABC123',
 };
 
 describe('when processing a migrationinvite_v1 job', () => {
@@ -70,13 +72,13 @@ describe('when processing a migrationinvite_v1 job', () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][2]).toMatchObject({
-      returnUrl: config.notifications.migrationUrl,
+      returnUrl: `${config.notifications.migrationUrl}/${data.invitationId}`,
     });
   });
 
   it('then it should include a subject', async () =>{
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('The way you access Key to Success is changing');
+    expect(emailSend.mock.calls[0][3]).toBe('The way that you access Keys to Success has changed');
   });
 });

@@ -4,9 +4,8 @@ const data = {
   email: 'test.user@tools.test',
   firstName: 'Test',
   lastName: 'User',
-  serviceWelcomeMessage: 'Welcome',
-  serviceWelcomeMessageDescription: 'this is a welcome message for you',
-  serviceName: 'Test tools',
+  invitationId: 'some-invitation-guid',
+  code: 'ABC123X'
 };
 
 send('migrationinvite_v1', data)
