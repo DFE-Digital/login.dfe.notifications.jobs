@@ -8,7 +8,7 @@ const data = {
   returnUrl: 'http://example.com?outcome=account_exists'
 };
 
-send('existinguserinvitation_v1', data)
+send('registerexistinguser_v1', data)
   .then(() => {
     console.info('done');
   })
