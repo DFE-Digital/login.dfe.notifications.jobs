@@ -1,7 +1,7 @@
 jest.mock('./../../../lib/infrastructure/email');
 
 const { getEmailAdapter } = require('./../../../lib/infrastructure/email');
-const { getHandler } = require('./../../../lib/handlers/invite/existingUserInvitationV1');
+const { getHandler } = require('./../../../lib/handlers/registration/registerExistingUserV1');
 
 const send = jest.fn();
 const logger = {
@@ -15,7 +15,7 @@ const config = {
   },
 };
 
-describe('when sending v1 existing user invitation', () => {
+describe('when sending v1 existing user registration', () => {
   let data;
   let handler;
 
@@ -36,11 +36,11 @@ describe('when sending v1 existing user invitation', () => {
     handler = getHandler(config, logger);
   });
 
-  it('then it should send email using existinguserinvitation template', async () => {
+  it('then it should send email using registerexistinguser template', async () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][1]).toBe('existinguserinvitation');
+    expect(send.mock.calls[0][1]).toBe('registerexistinguser');
   });
 
   it('then it should send email to email address in data', async () => {

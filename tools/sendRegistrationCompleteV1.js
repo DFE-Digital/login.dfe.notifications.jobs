@@ -5,10 +5,9 @@ const data = {
   firstName: 'Test',
   lastName: 'User',
   serviceName: 'Some Service',
-  returnUrl: 'http://example.com?outcome=account_exists'
 };
 
-send('existinguserinvitation_v1', data)
+send('registrationcomplete_v1', data)
   .then(() => {
     console.info('done');
   })
