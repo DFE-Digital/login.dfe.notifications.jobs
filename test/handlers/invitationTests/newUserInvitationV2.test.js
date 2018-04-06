@@ -11,7 +11,7 @@ const logger = {
 };
 const config = {
   notifications: {
-    migrationUrl: 'https://profile.test/reg',
+    profileUrl: 'https://profile.test/reg',
   },
 };
 
@@ -80,7 +80,7 @@ describe('when sending v2 user invitation', () => {
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
-      returnUrl: `${config.notifications.migrationUrl}/${data.invitationId}`,
+      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
     });
   });
 });
