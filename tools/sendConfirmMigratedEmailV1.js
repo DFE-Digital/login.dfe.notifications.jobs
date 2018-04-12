@@ -7,7 +7,7 @@ const data = {
   clientId: 'TESTTOOlS'
 };
 
-send('confirmMigratedEmail_v1', data)
+send('confirmmigratedemail_v1', data)
   .then(() => {
     console.info('done');
   })
