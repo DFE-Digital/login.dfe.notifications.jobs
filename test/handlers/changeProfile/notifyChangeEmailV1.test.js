@@ -1,7 +1,7 @@
 jest.mock('./../../../lib/infrastructure/email');
 
 const { getEmailAdapter } = require('./../../../lib/infrastructure/email');
-const { getHandler } = require('./../../../lib/handlers/changeProfile/verifyChangeEmailV1');
+const { getHandler } = require('./../../../lib/handlers/changeProfile/notifyChangeEmailV1');
 const emailSend = jest.fn();
 
 const config = {
@@ -14,10 +14,10 @@ const jobData = {
   firstName: 'User',
   lastName: 'One',
   email: 'user.one@unit.tests',
-  code: 'ABC123',
+  newEmail: 'user1@unit.tests',
 };
 
-describe('When handling verifychangeemail_v1 job', () => {
+describe('When handling notifychangeemail_v1 job', () => {
   beforeEach(() => {
     emailSend.mockReset();
 
@@ -29,7 +29,7 @@ describe('When handling verifychangeemail_v1 job', () => {
     const handler = getHandler(config, logger);
 
     expect(handler).not.toBeNull();
-    expect(handler.type).toBe('verifychangeemail_v1');
+    expect(handler.type).toBe('notifychangeemail_v1');
     expect(handler.processor).not.toBeNull();
     expect(handler.processor).toBeInstanceOf(Function);
   });
@@ -53,13 +53,13 @@ describe('When handling verifychangeemail_v1 job', () => {
     expect(emailSend.mock.calls[0][0]).toBe(jobData.email);
   });
 
-  it('then it should send email using verify-change-email template', async () => {
+  it('then it should send email using notify-change-email template', async () => {
     const handler = getHandler(config, logger);
 
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][1]).toBe('verify-change-email');
+    expect(emailSend.mock.calls[0][1]).toBe('notify-change-email');
   });
 
   it('then it should send email using request data as model', async () => {
@@ -71,26 +71,8 @@ describe('When handling verifychangeemail_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       firstName: jobData.firstName,
       lastName: jobData.lastName,
-      email: jobData.email,
-      code: jobData.code,
-      returnUrl: 'https://profile.dfe.signin/change-email/verify',
-    });
-  });
-
-  it('then it should use return url including uid if present in data', async () => {
-    jobData.uid = 'user1';
-
-    const handler = getHandler(config, logger);
-
-    await handler.processor(jobData);
-
-    expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][2]).toEqual({
-      firstName: jobData.firstName,
-      lastName: jobData.lastName,
-      email: jobData.email,
-      code: jobData.code,
-      returnUrl: 'https://profile.dfe.signin/change-email/user1/verify',
+      newEmail: jobData.newEmail,
+      profileUrl: 'https://profile.dfe.signin',
     });
   });
 
@@ -100,6 +82,6 @@ describe('When handling verifychangeemail_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe('Verify your new DfE Sign-in email address');
+    expect(emailSend.mock.calls[0][3]).toBe('Request to change your DfE Sign-in email address');
   });
 });
