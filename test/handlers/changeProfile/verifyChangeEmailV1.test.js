@@ -77,6 +77,23 @@ describe('When handling verifychangeemail_v1 job', () => {
     });
   });
 
+  it('then it should use return url including uid if present in data', async () => {
+    jobData.uid = 'user1';
+
+    const handler = getHandler(config, logger);
+
+    await handler.processor(jobData);
+
+    expect(emailSend.mock.calls).toHaveLength(1);
+    expect(emailSend.mock.calls[0][2]).toEqual({
+      firstName: jobData.firstName,
+      lastName: jobData.lastName,
+      email: jobData.email,
+      code: jobData.code,
+      returnUrl: 'https://profile.dfe.signin/change-email/user1/verify',
+    });
+  });
+
   it('then it should send email with subject', async () => {
     const handler = getHandler(config, logger);
 
