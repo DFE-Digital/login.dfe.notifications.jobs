@@ -12,6 +12,12 @@ const loadConfig = async () => {
           renderContent: true,
         },
       },
+      sms: {
+        type: 'disk',
+        params: {
+          renderContent: true,
+        },
+      }
     },
   });
 };

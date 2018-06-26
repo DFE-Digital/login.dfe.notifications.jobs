@@ -62,6 +62,7 @@ typings/
 .idea/watcherTasks.xml
 
 /app_data/email
+/app_data/sms
 \.idea/markdown-navigator\.xml
 
 \.idea/markdown-navigator/profiles_settings\.xml
