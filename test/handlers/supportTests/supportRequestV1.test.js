@@ -15,7 +15,8 @@ const jobData = {
   email: 'user.one@unit.tests',
   phone: '1234567890',
   message: 'I am having issues signing in using my new details',
-  reference: 'SIN123456798'
+  reference: 'SIN123456798',
+  service: 'Service Name',
 };
 
 describe('When handling supportrequest_v1 job', () => {
@@ -75,6 +76,7 @@ describe('When handling supportrequest_v1 job', () => {
       phone: jobData.phone,
       message: jobData.message,
       reference: jobData.reference,
+      service: jobData.service,
     });
   });
 
