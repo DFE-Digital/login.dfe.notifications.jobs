@@ -12,8 +12,7 @@ const config = {
 const logger = {};
 const jobData = {
   orgName: 'Test Organisation',
-  firstName: 'Test',
-  lastName: 'One',
+  name: 'Test One',
   approved: 'true',
   reason: 'test',
 };
@@ -72,8 +71,7 @@ describe('When handling accessRequest_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       approved: jobData.approved,
       reason: jobData.reason,
-      firstName: jobData.firstName,
-      lastName: jobData.lastName,
+      name: jobData.name,
       orgName: jobData.orgName,
     });
   });
