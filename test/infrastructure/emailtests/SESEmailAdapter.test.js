@@ -4,6 +4,7 @@ jest.mock('aws-sdk');
 describe('When sending an email using SES', () => {
   const sender = 'noreply@secure.access';
   const recipient = 'user.one@unit.tests';
+  const bccRecipient = ['secondUser@unit.tests'];
   const template = 'some-email';
   const data = {
     item1: 'something'
@@ -71,6 +72,14 @@ describe('When sending an email using SES', () => {
     expect(awsSESSendEmail.mock.calls.length).toBe(1);
     expect(awsSESSendEmail.mock.calls[0][0].Destination.ToAddresses.length).toBe(1);
     expect(awsSESSendEmail.mock.calls[0][0].Destination.ToAddresses[0]).toBe(recipient);
+  });
+
+  it('then it will send to the bcc addresses', async () => {
+    await adapter.send(recipient, template, data, subject, bccRecipient);
+
+    expect(awsSESSendEmail.mock.calls.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toBe(bccRecipient);
   });
 
   it('then it should send an email with the subject', async () => {
