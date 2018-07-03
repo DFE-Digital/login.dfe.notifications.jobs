@@ -1,19 +1,18 @@
 jest.mock('./../../../lib/infrastructure/email');
 
 const { getEmailAdapter } = require('./../../../lib/infrastructure/email');
-const { getHandler } = require('./../../../lib/handlers/accessRequest/approverAccessRequest');
+const { getHandler } = require('./../../../lib/handlers/accessRequest/approverAccessRequestV1');
 const emailSend = jest.fn();
 
 const config = {
   notifications: {
-    profileUrl: 'https://profile.dfe.signin',
+    servicesUrl: 'https://services.dfe.signin',
   },
 };
 const logger = {};
 const jobData = {
   orgName: 'Test Organisation',
   name: 'Test One',
-  returnUrl: 'https://mytest',
   recipients: ['test1@unit','test2@unit']
 };
 
@@ -71,7 +70,7 @@ describe('When handling approverAccessRequest_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       name: jobData.name,
       orgName: jobData.orgName,
-      returnUrl: jobData.returnUrl,
+      returnUrl: 'https://services.dfe.signin/access-requests',
     });
   });
 
