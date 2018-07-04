@@ -6,6 +6,7 @@ const loadConfig = async () => {
       migrationUrl: 'http://tools.test/migration',
       interactionsUrl: 'http://tools.test/interactions',
       profileUrl: 'http://tools.test/profile',
+      servicesUrl: 'https://tools.test/services',
       email: {
         type: 'disk',
         params: {
