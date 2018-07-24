@@ -20,9 +20,9 @@
   },
   "homepage": "https://github.com/DFE-Digital/login.dfe.notification.jobs#readme",
   "dependencies": {
-    "aws-sdk": "^2.154.0",
+    "aws-sdk": "^2.279.1",
     "ejs": "^2.5.7",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "notifications-node-client": "^4.1.0",
     "uuid": "^3.1.0"
   },

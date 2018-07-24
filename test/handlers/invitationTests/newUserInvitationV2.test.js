@@ -69,6 +69,15 @@ describe('when sending v2 user invitation', () => {
     expect(send.mock.calls[0][3]).toBe(`You’ve registered to join ${data.serviceName}`);
   });
 
+  it('then it should use override subject line if one is present', async () => {
+    data.overrides = {subject: "HELLO WORLD"};
+
+    await handler.processor(data);
+
+    expect(send.mock.calls).toHaveLength(1);
+    expect(send.mock.calls[0][3]).toBe("HELLO WORLD");
+  });
+
   it('then it should send email using template data', async () => {
     await handler.processor(data);
 
