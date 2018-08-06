@@ -78,6 +78,28 @@ describe('when sending v2 user invitation', () => {
     expect(send.mock.calls[0][3]).toBe("HELLO WORLD");
   });
 
+  it('then it should add html version of override body if one is present', async () => {
+    data.overrides = {
+      body: '#This is a test\n\nIt should *ignore* the formatting in _here_',
+    };
+
+    await handler.processor(data);
+
+    expect(send.mock.calls).toHaveLength(1);
+    expect(send.mock.calls[0][2].overrides.htmlBody).toBe("<h1>This is a test</h1>\n\n<p>It should <em>ignore</em> the formatting in <em>here</em></p>");
+  });
+
+  it('then it should add a plain text version of override body if one is present', async () => {
+    data.overrides = {
+      body: '#This is a test\n\nIt should *ignore* the formatting in _here_',
+    };
+
+    await handler.processor(data);
+
+    expect(send.mock.calls).toHaveLength(1);
+    expect(send.mock.calls[0][2].overrides.textBody).toBe("This is a test\nIt should ignore the formatting in here");
+  });
+
   it('then it should send email using template data', async () => {
     await handler.processor(data);
 
@@ -90,6 +112,7 @@ describe('when sending v2 user invitation', () => {
       selfInvoked: data.selfInvoked,
       code: data.code,
       returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
+      overrides: {},
     });
   });
 });
