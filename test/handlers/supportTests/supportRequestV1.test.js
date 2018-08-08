@@ -17,6 +17,7 @@ const jobData = {
   message: 'I am having issues signing in using my new details',
   reference: 'SIN123456798',
   service: 'Service Name',
+  type: 'type of issue',
 };
 
 describe('When handling supportrequest_v1 job', () => {
@@ -77,6 +78,7 @@ describe('When handling supportrequest_v1 job', () => {
       message: jobData.message,
       reference: jobData.reference,
       service: jobData.service,
+      type: jobData.type,
     });
   });
 
