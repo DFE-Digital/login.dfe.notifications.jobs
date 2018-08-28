@@ -15,7 +15,8 @@ const data = {
   email: 'user.one@unit.test',
   firstName: 'test',
   lastName: 'testing',
-  invitationId: 'inv-838383'
+  invitationId: 'inv-838383',
+  returnUrl: 'www.returnurl.com'
 };
 
 describe('when processing a sapasswordreset_v1 job', () => {
@@ -76,7 +77,7 @@ describe('when processing a sapasswordreset_v1 job', () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][2]).toMatchObject({
-      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
+      returnUrl: 'www.returnurl.com',
     });
   });
 
