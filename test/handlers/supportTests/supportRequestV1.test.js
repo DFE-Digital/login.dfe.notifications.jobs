@@ -13,6 +13,7 @@ const logger = {};
 const jobData = {
   name: 'User One',
   email: 'user.one@unit.tests',
+  saUsername: 'userone',
   phone: '1234567890',
   message: 'I am having issues signing in using my new details',
   reference: 'SIN123456798',
@@ -74,6 +75,7 @@ describe('When handling supportrequest_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       name: jobData.name,
       email: jobData.email,
+      saUsername: jobData.saUsername,
       phone: jobData.phone,
       message: jobData.message,
       reference: jobData.reference,
