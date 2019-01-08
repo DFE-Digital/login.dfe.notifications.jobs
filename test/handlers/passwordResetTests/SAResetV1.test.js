@@ -4,6 +4,7 @@ const config = {
   notifications: {
     type: 'disk',
     returnUrl: 'http://unit.test/register',
+    saUrl: 'http://unit.test/',
   },
 };
 
@@ -77,7 +78,7 @@ describe('when processing a sapasswordreset_v1 job', () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][2]).toMatchObject({
-      returnUrl: 'www.returnurl.com',
+      returnUrl: 'http://unit.test//existing-secure-access-user',
     });
   });
 
