@@ -7,6 +7,8 @@ const emailSend = jest.fn();
 const config = {
   notifications: {
     type: 'disk',
+    saUrl: 'unit.test.com',
+    servicesUrl: 'unit.services.com'
   },
 };
 
@@ -72,6 +74,8 @@ describe('When handling supportrequestconfirmation_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       name: jobData.name,
       service: jobData.service,
+      saUrl: 'unit.test.com/existing-secure-access-user',
+      servicesUrl: 'unit.services.com'
     });
   });
 
