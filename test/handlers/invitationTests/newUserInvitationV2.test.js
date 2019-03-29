@@ -12,6 +12,7 @@ const logger = {
 const config = {
   notifications: {
     profileUrl: 'https://profile.test/reg',
+    helpUrl: 'https://help.test',
   },
 };
 
@@ -111,6 +112,7 @@ describe('when sending v2 user invitation', () => {
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
+      helpUrl: `${config.notifications.helpUrl}/contact`,
       returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
       overrides: {},
     });
