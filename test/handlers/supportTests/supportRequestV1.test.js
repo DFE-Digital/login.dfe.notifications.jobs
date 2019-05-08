@@ -13,7 +13,6 @@ const logger = {};
 const jobData = {
   name: 'User One',
   email: 'user.one@unit.tests',
-  saUsername: 'userone',
   orgName: 'org1',
   urn: '1234',
   phone: '1234567890',
@@ -77,7 +76,6 @@ describe('When handling supportrequest_v1 job', () => {
     expect(emailSend.mock.calls[0][2]).toEqual({
       name: jobData.name,
       email: jobData.email,
-      saUsername: jobData.saUsername,
       orgName: jobData.orgName,
       urn: jobData.urn,
       phone: jobData.phone,
