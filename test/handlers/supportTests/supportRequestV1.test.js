@@ -80,7 +80,6 @@ describe('When handling supportrequest_v1 job', () => {
       urn: jobData.urn,
       phone: jobData.phone,
       message: jobData.message,
-      reference: jobData.reference,
       service: jobData.service,
       type: jobData.type,
     });
@@ -92,6 +91,6 @@ describe('When handling supportrequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in service desk request: SIN123456798');
+    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in service desk request');
   });
 });
