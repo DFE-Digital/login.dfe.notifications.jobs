@@ -7,12 +7,14 @@ const emailSend = jest.fn();
 const config = {
   notifications: {
     servicesUrl: 'https://services.dfe.signin',
+    helpUrl: 'https://help.dfe.signin'
   },
 };
 const logger = {};
 const jobData = {
   orgName: 'Test Organisation',
-  name: 'Test One',
+  userName: 'Test One',
+  userEmail: 'email@test.com',
   recipients: ['test1@unit','test2@unit']
 };
 
@@ -49,7 +51,7 @@ describe('When handling approverAccessRequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][0]).toBe('noreply@dfenewsecureaccess.org.uk');
+    expect(emailSend.mock.calls[0][0]).toBe('test1@unit');
   });
 
   it('then it should send email using approver-access-request-email template', async () => {
@@ -68,9 +70,11 @@ describe('When handling approverAccessRequest_v1 job', () => {
 
     expect(emailSend.mock.calls).toHaveLength(1);
     expect(emailSend.mock.calls[0][2]).toEqual({
-      name: jobData.name,
+      name: jobData.userName,
       orgName: jobData.orgName,
+      email: jobData.userEmail,
       returnUrl: 'https://services.dfe.signin/access-requests',
+      helpUrl: 'https://help.dfe.signin/contact'
     });
   });
 
@@ -80,7 +84,7 @@ describe('When handling approverAccessRequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe(`Access request for ${jobData.orgName}`);
+    expect(emailSend.mock.calls[0][3]).toBe(`DfE Sign-in access request for ${jobData.orgName}`);
   });
 
   it('then emails are sent in batches of fifty email addresses', async ()=>{
@@ -90,7 +94,7 @@ describe('When handling approverAccessRequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(2);
-    expect(emailSend.mock.calls[0][4]).toHaveLength(49);
-    expect(emailSend.mock.calls[1][4]).toHaveLength(11);
+    expect(emailSend.mock.calls[0][4]).toHaveLength(48);
+    expect(emailSend.mock.calls[1][4]).toHaveLength(10);
   });
 });
