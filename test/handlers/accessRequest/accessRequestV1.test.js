@@ -7,6 +7,7 @@ const emailSend = jest.fn();
 const config = {
   notifications: {
     profileUrl: 'https://profile.dfe.signin',
+    helpUrl: 'https://help.test',
   },
 };
 const logger = {};
@@ -73,6 +74,7 @@ describe('When handling accessRequest_v1 job', () => {
       reason: jobData.reason,
       name: jobData.name,
       orgName: jobData.orgName,
+      helpUrl: 'https://help.test/contact'
     });
   });
 
@@ -82,6 +84,6 @@ describe('When handling accessRequest_v1 job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe(`Request to access ${jobData.orgName}`);
+    expect(emailSend.mock.calls[0][3]).toBe(`DfE Sign-in - Request to access ${jobData.orgName}`);
   });
 });
