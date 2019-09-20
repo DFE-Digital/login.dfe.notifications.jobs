@@ -27,7 +27,7 @@ describe('when handling organisationrequest_v1 job', () => {
       {
         id: 'requestId',
         user_id: 'user1',
-        organisation_id: 'org1',
+        org_id: 'org1',
         reason: 'I need access pls'
       },
     );
