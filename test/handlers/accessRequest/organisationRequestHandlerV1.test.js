@@ -109,7 +109,7 @@ describe('when handling organisationrequest_v1 job', () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
 
-    expect(enqueue).toHaveBeenCalledTimes(1);
+    expect(enqueue).toHaveBeenCalledTimes(2);
     expect(enqueue).toHaveBeenCalledWith(queue, 'supportrequest_v1', {
       email: 'user.one-fromdir@unit.tests',
       name: 'name surname',
@@ -130,7 +130,7 @@ describe('when handling organisationrequest_v1 job', () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
 
-    expect(enqueue).toHaveBeenCalledTimes(1);
+    expect(enqueue).toHaveBeenCalledTimes(2);
     expect(enqueue).toHaveBeenCalledWith(queue, 'approveraccessrequest_v1', {
       userEmail: 'user.one-fromdir@unit.tests',
       userName: 'name surname',
