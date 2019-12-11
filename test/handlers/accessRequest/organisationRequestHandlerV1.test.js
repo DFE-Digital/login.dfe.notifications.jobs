@@ -136,6 +136,8 @@ describe('when handling organisationrequest_v1 job', () => {
       userName: 'name surname',
       recipients: ['approver@email.com'],
       orgName: 'organisation name',
+      orgId: 'org1',
+      requestId: 'requestId',
     });
   });
 });
