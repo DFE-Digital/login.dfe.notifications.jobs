@@ -15,7 +15,9 @@ const jobData = {
   orgName: 'Test Organisation',
   userName: 'Test One',
   userEmail: 'email@test.com',
-  recipients: ['test1@unit','test2@unit']
+  recipients: ['test1@unit','test2@unit'],
+  orgId:'org',
+  requestId:'requestId',
 };
 
 describe('When handling approverAccessRequest_v1 job', () => {
@@ -73,7 +75,7 @@ describe('When handling approverAccessRequest_v1 job', () => {
       name: jobData.userName,
       orgName: jobData.orgName,
       email: jobData.userEmail,
-      returnUrl: 'https://services.dfe.signin/access-requests',
+      returnUrl: 'https://services.dfe.signin/access-requests/org/requests/requestId',
       helpUrl: 'https://help.dfe.signin/contact'
     });
   });
