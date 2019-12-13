@@ -115,6 +115,7 @@ describe('when sending v2 user invitation', () => {
       helpUrl: `${config.notifications.helpUrl}/contact`,
       returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
       overrides: {},
+      email: 'stephen.strange@new-avengers.test'
     });
   });
 });
