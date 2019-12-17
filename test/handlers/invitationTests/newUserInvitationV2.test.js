@@ -13,6 +13,7 @@ const config = {
   notifications: {
     profileUrl: 'https://profile.test/reg',
     helpUrl: 'https://help.test',
+    feConnectUrl: 'https://feconnect.com',
   },
 };
 
@@ -115,7 +116,8 @@ describe('when sending v2 user invitation', () => {
       helpUrl: `${config.notifications.helpUrl}/contact`,
       returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
       overrides: {},
-      email: 'stephen.strange@new-avengers.test'
+      email: 'stephen.strange@new-avengers.test',
+      feConnectUrl: 'https://feconnect.com'
     });
   });
 });
