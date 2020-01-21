@@ -8,7 +8,7 @@ const config = {
   notifications: {
     profileUrl: 'https://profile.dfe.signin',
     helpUrl: 'https://help.test',
-    interactionsUrl: 'https://interactions.test',
+    servicesUrl: 'https://services.test',
   },
 };
 const logger = {};
@@ -76,7 +76,7 @@ describe('When handling accessRequest_v1 job', () => {
       name: jobData.name,
       orgName: jobData.orgName,
       helpUrl: 'https://help.test/contact',
-      interactionsUrl: 'https://interactions.test',
+      servicesUrl: 'https://services.test',
     });
   });
 
