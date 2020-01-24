@@ -71,7 +71,7 @@ describe('When handling supportoverduerequest job', () => {
       name: jobData.name,
       requestsCount: jobData.requestsCount,
       helpUrl: 'https://help.test/contact',
-      servicesUrl: 'https://services.test',
+      servicesUrl: 'https://services.test/access-requests',
     });
   });
 
@@ -81,6 +81,6 @@ describe('When handling supportoverduerequest job', () => {
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe(jobData.requestsCount+' Outstanding requests awaiting approval');
+    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in - '+jobData.requestsCount+' outstanding requests awaiting approval');
   });
 });
