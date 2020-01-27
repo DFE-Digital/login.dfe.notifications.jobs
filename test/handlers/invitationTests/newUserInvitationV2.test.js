@@ -68,7 +68,7 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][3]).toBe(`You’ve registered to join ${data.serviceName}`);
+    expect(send.mock.calls[0][3]).toBe(`${data.code} is your DfE Sign-in verification code`);
   });
 
   it('then it should use override subject line if one is present', async () => {
