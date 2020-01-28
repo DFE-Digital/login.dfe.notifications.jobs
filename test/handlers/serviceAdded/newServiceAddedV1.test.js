@@ -81,25 +81,9 @@ describe('when processing a userserviceadded_v1 job', () => {
     });
   });
 
-  it('then it should include the service name in the email data', async () => {
-    await handler.processor(data);
-
-    expect(emailSend.mock.calls[0][2]).toMatchObject({
-      serviceName: data.serviceName,
-    });
-  });
-
-  it('then it should include the org name in the email data', async () => {
-    await handler.processor(data);
-
-    expect(emailSend.mock.calls[0][2]).toMatchObject({
-      orgName: data.orgName,
-    });
-  });
-
   it('then it should include a subject', async () =>{
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in: You now have access to Unit Test');
+    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in - Access to new services granted');
   });
 });
