@@ -23,7 +23,7 @@
     "kue": "^0.11.6",
     "aws-sdk": "^2.279.1",
     "ejs": "^2.5.7",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "markdown": "^0.5.0",
     "notifications-node-client": "^4.5.2",
     "uuid": "^3.1.0",
