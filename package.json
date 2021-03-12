@@ -20,15 +20,15 @@
   },
   "homepage": "https://github.com/DFE-Digital/login.dfe.notification.jobs#readme",
   "dependencies": {
-    "kue": "^0.11.6",
     "aws-sdk": "^2.279.1",
-    "ejs": "^2.5.7",
-    "lodash": "^4.17.11",
+    "ejs": "^3.1.6",
+    "kue": "^0.11.6",
+    "lodash": "^4.17.21",
+    "login.dfe.jwt-strategies": "git+https://github.com/DFE-Digital/login.dfe.jwt-strategies.git#v3.0",
+    "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v2.1",
     "markdown": "^0.5.0",
     "notifications-node-client": "^4.5.2",
-    "uuid": "^3.1.0",
-    "login.dfe.jwt-strategies": "git+https://github.com/DFE-Digital/login.dfe.jwt-strategies.git#v3.0",
-    "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v2.1"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^6.5.1",
