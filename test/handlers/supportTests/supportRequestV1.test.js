@@ -15,11 +15,10 @@ const jobData = {
   email: 'user.one@unit.tests',
   orgName: 'org1',
   urn: '1234',
-  phone: '1234567890',
   message: 'I am having issues signing in using my new details',
-  reference: 'SIN123456798',
   service: 'Service Name',
-  type: 'type of issue',
+  type: 'other',
+  typeAdditionalInfo: 'type of issue',
 };
 
 describe('When handling supportrequest_v1 job', () => {
@@ -78,10 +77,10 @@ describe('When handling supportrequest_v1 job', () => {
       email: jobData.email,
       orgName: jobData.orgName,
       urn: jobData.urn,
-      phone: jobData.phone,
       message: jobData.message,
       service: jobData.service,
       type: jobData.type,
+      typeAdditionalInfo: jobData.typeAdditionalInfo,
     });
   });
 
