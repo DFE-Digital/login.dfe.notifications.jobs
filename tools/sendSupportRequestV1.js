@@ -7,8 +7,8 @@ const data = {
   urn: 'test urn',
   message: 'message',
   service: 'service',
-  type: 'type',
-  additionalInformation: 'test message'
+  type: 'other',
+  typeAdditionalInfo: 'test message',
 };
 
 send('supportrequest_v1', data)
