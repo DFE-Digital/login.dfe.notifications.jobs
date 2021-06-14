@@ -32,7 +32,10 @@ describe('when sending an email using S3EmailAdapter', () => {
     });
 
     const S3EmailAdapter = require('../../../lib/infrastructure/email/S3EmailAdapter');
-    adapter = new S3EmailAdapter(configData);
+    adapter = new S3EmailAdapter(configData, {
+      info: jest.fn(),
+      error: jest.fn(),
+    });
   });
 
   test('then it should put an object in bucket', async () => {

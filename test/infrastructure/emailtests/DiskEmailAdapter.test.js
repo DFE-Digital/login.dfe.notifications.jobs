@@ -39,7 +39,10 @@ describe('When sending email using DiskAdapter', () => {
     fs.writeFile = fsWriteFile;
 
     const DiskEmailAdapter = require('../../../lib/infrastructure/email/DiskEmailAdapter');
-    adapter = new DiskEmailAdapter();
+    adapter = new DiskEmailAdapter({}, {
+      info: jest.fn(),
+      error: jest.fn(),
+    });
   });
 
   test('then it should write param to disk', async () => {
