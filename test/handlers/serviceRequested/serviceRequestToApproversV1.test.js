@@ -55,7 +55,8 @@ describe('when processing a servicerequest_to_approvers_v1 job', () => {
     directoriesClient.getUsersByIds.mockReturnValue([{
       id: 'approver1',
       email: 'approver@email.com',
-      name: 'approver1'
+      given_name: 'Test',
+      family_name: 'User'
     }]);
     DirectoriesClient.mockImplementation(() => directoriesClient);
 
