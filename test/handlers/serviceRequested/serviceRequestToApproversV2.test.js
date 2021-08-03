@@ -3,10 +3,10 @@ jest.mock('./../../../lib/infrastructure/directories');
 jest.mock('./../../../lib/infrastructure/email');
 jest.mock('./../../../lib/handlers/utils');
 
-const OrganisationsClient = require('./../../../lib/infrastructure/organisations');
-const DirectoriesClient = require('./../../../lib/infrastructure/directories');
+const OrganisationsClient = require('../../../lib/infrastructure/organisations');
+const DirectoriesClient = require('../../../lib/infrastructure/directories');
 
-const { getDefaultConfig, getLoggerMock, getOrganisationsClientMock, getDirectoriesClientMock } = require('./../../utils');
+const { getDefaultConfig, getLoggerMock, getOrganisationsClientMock, getDirectoriesClientMock } = require('../../utils');
 
 const config = getDefaultConfig();
 const logger = getLoggerMock();
@@ -25,14 +25,14 @@ const data = {
   approveServiceUrl: "https://dfe-test.com/approve"
 };
 
-describe('when processing a servicerequest_to_approvers_v1 job', () => {
+describe('when processing a servicerequest_to_approvers_v2 job', () => {
   let emailSend;
   let email;
   let handler;
 
   beforeEach(() => {
     emailSend = jest.fn();
-    email = require('./../../../lib/infrastructure/email');
+    email = require('../../../lib/infrastructure/email');
     email.getEmailAdapter = jest.fn().mockImplementation(() => {
       return {
         send: emailSend,
