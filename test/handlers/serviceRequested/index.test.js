@@ -1,4 +1,4 @@
-jest.mock('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV1');
+jest.mock('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV2');
 
 const processor = async (data) => {
   return Promise.resolve();
@@ -19,7 +19,7 @@ describe('when registering service added handlers', () => {
   let register;
 
   beforeAll(() => {
-    v1 = require('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV1');
+    v1 = require('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV2');
     v1.getHandler = jest.fn().mockReturnValue({
       type: 'v1',
       processor,

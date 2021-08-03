@@ -60,7 +60,7 @@ describe('when processing a servicerequest_to_approvers_v2 job', () => {
     }]);
     DirectoriesClient.mockImplementation(() => directoriesClient);
 
-    handler = require('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV1').getHandler(config, logger);
+    handler = require('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV2').getHandler(config, logger);
   });
 
   it('then it should get email adapter with config and logger', async () => {
