@@ -18,7 +18,6 @@ const data = {
   serviceName: 'Unit Test',
   orgName: 'org name',
   requestedSubServices: ['role1'],
-  status: 'Approved',
   signInUrl: 'test.co.uk'
 };
 
