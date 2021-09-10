@@ -66,3 +66,5 @@ typings/
 \.idea/markdown-navigator\.xml
 
 \.idea/markdown-navigator/profiles_settings\.xml
+
+.npmrc
