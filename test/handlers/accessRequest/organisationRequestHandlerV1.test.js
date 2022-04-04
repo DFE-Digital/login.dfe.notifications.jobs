@@ -33,24 +33,18 @@ const directoriesClient = getDirectoriesClientMock();
 describe('when handling organisationrequest_v1 job', () => {
   beforeEach(() => {
     organisatonsClient.mockResetAll();
-    organisatonsClient.getOrgRequestById.mockReturnValue(
-      {
+    organisatonsClient.getOrgRequestById.mockReturnValue({
         id: 'requestId',
         user_id: 'user1',
         org_id: 'org1',
         reason: 'I need access pls'
-      },
-    );
+    });
     organisatonsClient.getApproversForOrganisation.mockReturnValue([]);
-
-    organisatonsClient.getOrganisationById.mockReturnValue(
-      {
+    organisatonsClient.getOrganisationById.mockReturnValue({
         id: 'org1',
         name: 'organisation name'
-      }
-    );
+    });
     OrganisationsClient.mockImplementation(() => organisatonsClient);
-
     directoriesClient.mockResetAll();
     directoriesClient.getById.mockReturnValue({
       sub: 'user1',
@@ -61,9 +55,7 @@ describe('when handling organisationrequest_v1 job', () => {
     });
     directoriesClient.getUsersByIds.mockReturnValue([]);
     DirectoriesClient.mockImplementation(() => directoriesClient);
-
     kue.createQueue.mockReset().mockReturnValue(queue);
-
     enqueue.mockReset();
   });
 
@@ -96,17 +88,8 @@ describe('when handling organisationrequest_v1 job', () => {
   });
 
   it('then it should get the org details', async () => {
-    jest.mock('login.dfe.dao',()=>({
-      directories:{
-        getAllActiveUsersFromList(){
-          return []
-        }
-      }
-    }));
-    
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(organisatonsClient.getOrganisationById).toHaveBeenCalledTimes(1);
     expect(organisatonsClient.getOrganisationById.mock.calls[0][0]).toBe('org1');
   });
@@ -138,7 +121,6 @@ describe('when handling organisationrequest_v1 job', () => {
       id: 'approver1',
       email: 'approver@email.com'
     }]);
-
     const handler = getHandler(config, logger);
     await handler.processor(data);
     expect(enqueue).toHaveBeenCalledTimes(1);
