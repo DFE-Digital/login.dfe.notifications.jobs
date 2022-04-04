@@ -1,6 +1,8 @@
 jest.mock('./../../../lib/infrastructure/email');
-jest.mock('uuid/v4', () => {
-  return jest.fn().mockReturnValue('some-uuid');
+jest.mock('uuid', () => {
+  return {
+    v4: jest.fn().mockReturnValue('some-uuid')
+  }
 });
 
 const config = {

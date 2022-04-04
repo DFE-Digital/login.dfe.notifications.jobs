@@ -4,7 +4,7 @@ describe('when getting template formats', () => {
   let getTemplateFormats;
 
   beforeEach(() => {
-    const realPath = require.requireActual('path');
+    const realPath = jest.requireActual('path');
     const testRoot = realPath.resolve(__dirname, 'fixtures');
 
     const path = require('path');

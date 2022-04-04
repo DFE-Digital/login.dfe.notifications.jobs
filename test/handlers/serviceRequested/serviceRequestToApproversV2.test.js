@@ -2,6 +2,15 @@ jest.mock('./../../../lib/infrastructure/organisations');
 jest.mock('./../../../lib/infrastructure/directories');
 jest.mock('./../../../lib/infrastructure/email');
 jest.mock('./../../../lib/handlers/utils');
+jest.mock('login.dfe.dao',()=>({
+  directories:{
+    getAllActiveUsersFromList(){
+      return [1]
+    }
+  }
+}));
+
+
 
 const OrganisationsClient = require('../../../lib/infrastructure/organisations');
 const DirectoriesClient = require('../../../lib/infrastructure/directories');
@@ -59,7 +68,6 @@ describe('when processing a servicerequest_to_approvers_v2 job', () => {
       family_name: 'User'
     }]);
     DirectoriesClient.mockImplementation(() => directoriesClient);
-
     handler = require('./../../../lib/handlers/serviceRequested/serviceRequestToApproversV2').getHandler(config, logger);
   });
 
@@ -91,8 +99,7 @@ describe('when processing a servicerequest_to_approvers_v2 job', () => {
 
   it('then it should include a subject', async () =>{
     await handler.processor(data);
-
-    expect(emailSend.mock.calls[0][3]).toBe('A user has requested access to a service');
+    expect(emailSend.mock.calls[0][3]).toBe('(undefined) A user has requested access to a service');
   });
 });
 
