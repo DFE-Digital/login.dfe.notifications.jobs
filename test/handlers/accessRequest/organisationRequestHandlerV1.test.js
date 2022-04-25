@@ -1,4 +1,4 @@
-jest.mock('kue');
+jest.mock('login.dfe.kue');
 jest.mock('./../../../lib/infrastructure/organisations');
 jest.mock('./../../../lib/infrastructure/directories');
 jest.mock('./../../../lib/handlers/utils');
@@ -13,7 +13,7 @@ jest.mock('login.dfe.dao',()=>({
   }
 }));
 
-const kue = require('kue');
+const kue = require('login.dfe.kue');
 const OrganisationsClient = require('./../../../lib/infrastructure/organisations');
 const DirectoriesClient = require('./../../../lib/infrastructure/directories');
 const { enqueue } = require('./../../../lib/handlers/utils');
