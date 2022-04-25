@@ -1,4 +1,12 @@
 jest.mock('./../../../lib/handlers/accessRequest/accessRequestV1');
+jest.mock('login.dfe.dao',()=>({
+  directories:{
+    getAllActiveUsersFromList(){
+      return [1]
+    }
+  }
+}));
+
 
 const processor = async (data) => {
   return Promise.resolve();

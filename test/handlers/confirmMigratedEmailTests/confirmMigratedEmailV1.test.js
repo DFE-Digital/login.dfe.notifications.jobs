@@ -1,6 +1,8 @@
 jest.mock('./../../../lib/infrastructure/email');
-jest.mock('uuid/v4', () => {
-  return jest.fn().mockReturnValue('some-uuid');
+jest.mock('uuid', () => {
+  return {
+    v4: jest.fn().mockReturnValue('some-uuid')
+  }
 });
 
 const config = {
@@ -33,8 +35,7 @@ describe('when processing a confirmMigratedEmail_v1 job', () => {
         send: emailSend,
       };
     });
-
-    handler = require('./../../../lib/handlers/confirmMigratedEmail/confirmMigratedEmailV1').getHandler(config, logger);
+    handler = require('../../../lib/handlers/confirmMigratedEmail/confirmMigratedEmailV1').getHandler(config, logger);
   });
 
   it('then it should get email adapter with config and logger', async () => {

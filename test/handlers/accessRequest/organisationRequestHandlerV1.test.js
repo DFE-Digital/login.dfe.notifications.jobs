@@ -1,9 +1,19 @@
-jest.mock('kue');
+jest.mock('login.dfe.kue');
 jest.mock('./../../../lib/infrastructure/organisations');
 jest.mock('./../../../lib/infrastructure/directories');
 jest.mock('./../../../lib/handlers/utils');
+jest.mock('login.dfe.dao',()=>({
+  directories:{
+    getAllActiveUsersFromList(v){
+      if(v[0]==="appover1"){
+        return ["appover1"];
+      }
+      return []
+    }
+  }
+}));
 
-const kue = require('kue');
+const kue = require('login.dfe.kue');
 const OrganisationsClient = require('./../../../lib/infrastructure/organisations');
 const DirectoriesClient = require('./../../../lib/infrastructure/directories');
 const { enqueue } = require('./../../../lib/handlers/utils');
@@ -23,24 +33,18 @@ const directoriesClient = getDirectoriesClientMock();
 describe('when handling organisationrequest_v1 job', () => {
   beforeEach(() => {
     organisatonsClient.mockResetAll();
-    organisatonsClient.getOrgRequestById.mockReturnValue(
-      {
+    organisatonsClient.getOrgRequestById.mockReturnValue({
         id: 'requestId',
         user_id: 'user1',
         org_id: 'org1',
         reason: 'I need access pls'
-      },
-    );
+    });
     organisatonsClient.getApproversForOrganisation.mockReturnValue([]);
-
-    organisatonsClient.getOrganisationById.mockReturnValue(
-      {
+    organisatonsClient.getOrganisationById.mockReturnValue({
         id: 'org1',
         name: 'organisation name'
-      }
-    );
+    });
     OrganisationsClient.mockImplementation(() => organisatonsClient);
-
     directoriesClient.mockResetAll();
     directoriesClient.getById.mockReturnValue({
       sub: 'user1',
@@ -51,22 +55,18 @@ describe('when handling organisationrequest_v1 job', () => {
     });
     directoriesClient.getUsersByIds.mockReturnValue([]);
     DirectoriesClient.mockImplementation(() => directoriesClient);
-
     kue.createQueue.mockReset().mockReturnValue(queue);
-
     enqueue.mockReset();
   });
 
   it('then it should return handler with correct type', () => {
     const handler = getHandler(config, logger);
-
     expect(handler.type).toBe('organisationrequest_v1');
   });
 
   it('then it should create queue with correct connectionString', async () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(kue.createQueue).toHaveBeenCalledTimes(1);
     expect(kue.createQueue).toHaveBeenCalledWith({
       redis: config.queueStorage.connectionString,
@@ -76,15 +76,13 @@ describe('when handling organisationrequest_v1 job', () => {
   it('then it should get the request by id', async () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(organisatonsClient.getOrgRequestById).toHaveBeenCalledTimes(1);
     expect(organisatonsClient.getOrgRequestById.mock.calls[0][0]).toBe('requestId');
   });
 
-  it('then it should get the approvers for the org in the request', async () => {
+  it('then it should get the approvers for the org in the request', async () => {    
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(organisatonsClient.getApproversForOrganisation).toHaveBeenCalledTimes(1);
     expect(organisatonsClient.getApproversForOrganisation.mock.calls[0][0]).toBe('org1');
   });
@@ -92,7 +90,6 @@ describe('when handling organisationrequest_v1 job', () => {
   it('then it should get the org details', async () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(organisatonsClient.getOrganisationById).toHaveBeenCalledTimes(1);
     expect(organisatonsClient.getOrganisationById.mock.calls[0][0]).toBe('org1');
   });
@@ -100,7 +97,6 @@ describe('when handling organisationrequest_v1 job', () => {
   it('then it should get the user details', async () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(directoriesClient.getById).toHaveBeenCalledTimes(1);
     expect(directoriesClient.getById.mock.calls[0][0]).toBe('user1');
   });
@@ -108,12 +104,11 @@ describe('when handling organisationrequest_v1 job', () => {
   it('then it should queue a supportrequest_v1 job if no approvers for org ', async () => {
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(enqueue).toHaveBeenCalledTimes(1);
     expect(enqueue).toHaveBeenCalledWith(queue, 'supportrequest_v1', {
       email: 'user.one-fromdir@unit.tests',
       name: 'name surname',
-      orgName: 'organisation name',
+      orgName: "organisation name",
       type: 'Access to an organisation',
       urn: '',
       message: 'Organisation request for organisation name, no approvers exist. Request reason: I need access pls'
@@ -126,17 +121,15 @@ describe('when handling organisationrequest_v1 job', () => {
       id: 'approver1',
       email: 'approver@email.com'
     }]);
-
     const handler = getHandler(config, logger);
     await handler.processor(data);
-
     expect(enqueue).toHaveBeenCalledTimes(1);
     expect(enqueue).toHaveBeenCalledWith(queue, 'approveraccessrequest_v1', {
       userEmail: 'user.one-fromdir@unit.tests',
       userName: 'name surname',
       recipients: ['approver@email.com'],
-      orgName: 'organisation name',
       orgId: 'org1',
+      orgName: "organisation name",
       requestId: 'requestId',
     });
   });

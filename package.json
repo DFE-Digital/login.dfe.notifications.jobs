@@ -1,10 +1,11 @@
 {
   "name": "login.dfe.notification.jobs",
-  "version": "1.0.2",
+  "version": "6.0.7",
   "description": "Job handlers for notifications",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "test:watch": "./node_modules/.bin/jest --watchAll"
   },
   "engines": {
     "node": "10.x.x"
@@ -22,21 +23,21 @@
   "dependencies": {
     "aws-sdk": "^2.279.1",
     "ejs": "^3.1.6",
-    "kue": "^0.11.6",
     "lodash": "^4.17.21",
     "login.dfe.dao": "^1.0.79",
     "login.dfe.jwt-strategies": "git+https://github.com/DFE-Digital/login.dfe.jwt-strategies.git#v3.0",
+    "login.dfe.kue": "git+https://github.com/DFE-Digital/login.dfe.kue.git#v0.11.6",
     "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v2.1",
     "markdown": "^0.5.0",
     "notifications-node-client": "^4.5.2",
-    "uuid": "^3.1.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "jest": "^24.9.0",
-    "jest-cli": "^24.9.0"
+    "jest": "^27.5.1",
+    "jest-cli": "^27.5.1"
   },
   "jest": {
     "testEnvironment": "node",

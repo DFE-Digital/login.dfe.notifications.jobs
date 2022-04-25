@@ -18,7 +18,7 @@ describe('when registering confirmMigratedEmail handlers', () => {
   let register;
 
   beforeAll(() => {
-    v1 = require('./../../../lib/handlers/confirmMigratedEmail/confirmMigratedEmailV1/');
+    v1 = require('./../../../lib/handlers/confirmMigratedEmail/confirmMigratedEmailV1');
     v1.getHandler = jest.fn().mockReturnValue({
       type: 'v1',
       processor,
