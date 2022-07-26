@@ -36,6 +36,8 @@ describe('when sending v2 user invitation', () => {
       requiresDigipass: true,
       selfInvoked: false,
       code: 'ABC123',
+      isApprover: false,
+      orgName:"Test Org",
     };
 
     handler = getHandler(config, logger);
@@ -113,11 +115,13 @@ describe('when sending v2 user invitation', () => {
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
-      helpUrl: `${config.notifications.helpUrl}/contact`,
+      helpUrl: `${config.notifications.helpUrl}/contact-us`,
+      isApprover: data.isApprover,
+      orgName: data.orgName,
       returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
       overrides: {},
       email: 'stephen.strange@new-avengers.test',
-      feConnectUrl: 'https://feconnect.com'
+      feConnectUrl: 'https://feconnect.com',
     });
   });
 });
