@@ -3,6 +3,7 @@ jest.mock('./../../../lib/infrastructure/email');
 const config = {
   notifications: {
     type: 'disk',
+    servicesUrl: 'https://sign-in.test',
     helpUrl: 'https://help.test',
   },
 };
@@ -15,10 +16,13 @@ const data = {
   email: 'user.one@unit.test',
   firstName: 'test',
   lastName: 'testing',
-  serviceName: 'Unit Test',
   orgName: 'org name',
+  permissionName: 'End user',
+  serviceName: 'Unit Test',
   requestedSubServices: ['role1'],
-  signInUrl: 'test.co.uk'
+  signInUrl: 'https://sign-in.test/my-services',
+  helpUrl: 'https://help.test/contact',
+  helpApproverUrl: 'https://help.test/approvers',
 };
 
 describe('when processing a userserviceadded_v2 job', () => {
@@ -29,11 +33,9 @@ describe('when processing a userserviceadded_v2 job', () => {
   beforeEach(() => {
     emailSend = jest.fn();
     email = require('../../../lib/infrastructure/email');
-    email.getEmailAdapter = jest.fn().mockImplementation(() => {
-      return {
-        send: emailSend,
-      };
-    });
+    email.getEmailAdapter = jest.fn().mockImplementation(() => ({
+      send: emailSend,
+    }));
 
     handler = require('../../../lib/handlers/serviceAdded/newServiceAddedV2').getHandler(config, logger);
   });
@@ -75,10 +77,57 @@ describe('when processing a userserviceadded_v2 job', () => {
     });
   });
 
+  it('then it should include the organisation name in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      orgName: data.orgName,
+    });
+  });
+
+  it('then it should include the permission level in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      permissionName: data.permissionName,
+    });
+  });
+
+  it('then it should include the requested sub services in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      requestedSubServices: data.requestedSubServices,
+    });
+  });
+
+  it('then it should include the sign in URL in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      signInUrl: data.signInUrl,
+    });
+  });
+
+  it('then it should include the help URL in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      helpUrl: data.helpUrl,
+    });
+  });
+
+  it('then it should include the help URL for approvers in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      helpApproverUrl: data.helpApproverUrl,
+    });
+  });
 
   it('then it should include a subject', async () =>{
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('New service added');
+    expect(emailSend.mock.calls[0][3]).toBe('New service added to your DfE Sign-in account');
   });
 });
