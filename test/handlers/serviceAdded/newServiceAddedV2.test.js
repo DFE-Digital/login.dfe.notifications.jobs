@@ -17,7 +17,10 @@ const data = {
   firstName: 'test',
   lastName: 'testing',
   orgName: 'org name',
-  permissionName: 'End user',
+  permission: {
+    id: 0,
+    name: 'End user',
+  },
   serviceName: 'Unit Test',
   requestedSubServices: ['role1'],
   signInUrl: 'https://sign-in.test/my-services',
@@ -89,7 +92,7 @@ describe('when processing a userserviceadded_v2 job', () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][2]).toMatchObject({
-      permissionName: data.permissionName,
+      permission: data.permission,
     });
   });
 
