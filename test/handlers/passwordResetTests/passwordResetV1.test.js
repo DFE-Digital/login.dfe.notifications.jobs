@@ -9,6 +9,8 @@ const config = {
   notifications: {
     type: 'disk',
     migrationUrl: 'http://unit.test/migration/',
+    interactionsUrl: 'https://interactions.test',
+    helpUrl: 'https://help.url',
   },
 };
 const logger = {
@@ -17,6 +19,8 @@ const logger = {
 };
 const data = {
   email: 'user.one@unit.test',
+  firstName: 'Jane',
+  lastName: 'Doe',
   code: 'TEST01',
   clientId: 'CLIENT1',
   uid: '65432RFV',
@@ -52,12 +56,29 @@ describe('when processing a passwordreset_v1 job', () => {
 
     expect(emailSend.mock.calls.length).toBe(1);
     expect(emailSend.mock.calls[0][1]).toBe('password-reset');
+    expect(emailSend.mock.calls[0][2]).toEqual({
+      clientId: data.clientId,
+      code: data.code,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      helpUrl: `${config.notifications.helpUrl}/contact-us`,
+      returnUrl: `${config.notifications.interactionsUrl}/some-uuid/resetpassword/${data.uid}/confirm?clientid=${data.clientId}`,
+    });
   });
 
   it('then it should send an email to the user', async () => {
     await handler.processor(data);
 
     expect(emailSend.mock.calls[0][0]).toBe(data.email);
+  });
+
+  it('then it should include the user first name and last name in the email data', async () => {
+    await handler.processor(data);
+
+    expect(emailSend.mock.calls[0][2]).toMatchObject({
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
   });
 
   it('then it should include the reset code in the email data', async () => {
