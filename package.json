@@ -29,7 +29,7 @@
     "login.dfe.kue": "git+https://github.com/DFE-Digital/login.dfe.kue.git#v0.11.6",
     "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v2.1",
     "markdown": "^0.5.0",
-    "notifications-node-client": "^4.5.2",
+    "notifications-node-client": "^7.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
