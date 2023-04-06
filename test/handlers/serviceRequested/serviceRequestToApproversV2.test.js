@@ -99,7 +99,7 @@ describe('when processing a servicerequest_to_approvers_v2 job', () => {
 
   it('then it should include a subject', async () =>{
     await handler.processor(data);
-    expect(emailSend.mock.calls[0][3]).toBe('(undefined) A user has requested access to a service');
+    expect(emailSend.mock.calls[0][3]).toBe('(unitTestEnv) A user has requested access to a service');
   });
 });
 
