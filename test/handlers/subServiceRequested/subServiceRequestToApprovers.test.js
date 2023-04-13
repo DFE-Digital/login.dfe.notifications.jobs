@@ -119,7 +119,7 @@ describe('when processing a sub_service_request_to_approvers job', () => {
     expect(emailSend.mock.calls[0][3]).toBe('(unitTestEnv) A user has requested access to a sub-service');
   });
 
-  it('then it should include a subject withoud a prefix if env is PROD', async () => {
+  it('then it should include a subject without a prefix if env is PROD', async () => {
     config.notifications.envName = 'pr';
     await handler.processor(data);
 
