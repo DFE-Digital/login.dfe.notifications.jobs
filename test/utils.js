@@ -15,6 +15,7 @@ const getDefaultConfig = () => {
       email: {
         type: 'disk'
       },
+      envName:'unitTestEnv'
     },
   };
 };
