@@ -122,7 +122,7 @@ describe('When processing a sub_service_request_approved job', () => {
   it('then it should include a subject', async () => {
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('New sub-service added to your DfE Sign-in account');
+    expect(emailSend.mock.calls[0][3]).toBe('Sub-service access changed on your DfE Sign-in account');
   });
 
   it('then it shoud log the error message and throw an error if there is an Error', async () => {
