@@ -14,6 +14,7 @@ const config = {
     profileUrl: 'https://profile.test/reg',
     helpUrl: 'https://help.test',
     feConnectUrl: 'https://feconnect.com',
+    getmoreinfoUrl: 'https://help.test/moving-to-DfE-Sign-in',
   },
 };
 
@@ -38,6 +39,9 @@ describe('when sending v2 user invitation', () => {
       code: 'ABC123',
       isApprover: false,
       orgName:"Test Org",
+      approverEmail: "test@test.com",
+      source: 'source-location',
+
     };
 
     handler = getHandler(config, logger);
@@ -110,15 +114,18 @@ describe('when sending v2 user invitation', () => {
     expect(send.mock.calls).toHaveLength(1);
     expect(send.mock.calls[0][2]).toEqual({
       firstName: data.firstName,
+      approverEmail: 'test@test.com',
       lastName: data.lastName,
       serviceName: data.serviceName,
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
+      getmoreinfoUrl: 'https://help.test/moving-to-DfE-Sign-in',
+      source: 'source-location',
       helpUrl: `${config.notifications.helpUrl}/contact-us`,
       isApprover: data.isApprover,
       orgName: data.orgName,
-      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
+      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}?id=email`,
       overrides: {},
       email: 'stephen.strange@new-avengers.test',
       feConnectUrl: 'https://feconnect.com',
