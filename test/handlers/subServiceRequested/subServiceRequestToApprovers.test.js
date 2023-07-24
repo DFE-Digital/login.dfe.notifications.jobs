@@ -116,14 +116,14 @@ describe('when processing a sub_service_request_to_approvers job', () => {
   it('then it should include a subject prefixed by the env name if env not PROD', async () => {
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('(unitTestEnv) A user has requested access to a sub-service');
+    expect(emailSend.mock.calls[0][3]).toBe('(unitTestEnv) Request to change sub-service access.');
   });
 
   it('then it should include a subject without a prefix if env is PROD', async () => {
     config.notifications.envName = 'pr';
     await handler.processor(data);
 
-    expect(emailSend.mock.calls[0][3]).toBe('A user has requested access to a sub-service');
+    expect(emailSend.mock.calls[0][3]).toBe('Request to change sub-service access.');
   });
   it('then it shoud log the error message and throw an error if there is an Error', async () => {
     data = undefined;

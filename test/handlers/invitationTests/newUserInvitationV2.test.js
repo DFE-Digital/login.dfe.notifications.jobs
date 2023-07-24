@@ -36,6 +36,7 @@ describe('when sending v2 user invitation', () => {
       serviceName: 'Unit Test',
       requiresDigipass: true,
       selfInvoked: false,
+      getmoreinfoUrl: `${config.notifications.helpUrl}/moving-to-DfE-Sign-in`,
       code: 'ABC123',
       isApprover: false,
       orgName:"Test Org",
@@ -112,7 +113,9 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
+  
     expect(send.mock.calls[0][2]).toEqual({
+      approverEmail: data.approverEmail,
       firstName: data.firstName,
       approverEmail: 'test@test.com',
       lastName: data.lastName,
@@ -129,6 +132,7 @@ describe('when sending v2 user invitation', () => {
       overrides: {},
       email: 'stephen.strange@new-avengers.test',
       feConnectUrl: 'https://feconnect.com',
+      source: data.source,
     });
   });
 });
