@@ -35,9 +35,11 @@ describe('when sending v2 user invitation', () => {
       serviceName: 'Unit Test',
       requiresDigipass: true,
       selfInvoked: false,
+      getmoreinfoUrl: `${config.notifications.helpUrl}/moving-to-DfE-Sign-in`,
       code: 'ABC123',
       isApprover: false,
       orgName:"Test Org",
+      source: undefined,
     };
 
     handler = getHandler(config, logger);
@@ -108,20 +110,24 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
+    console.log(send.mock.calls[0][2]);
     expect(send.mock.calls[0][2]).toEqual({
+      approveEmail: data.approveEmail,
       firstName: data.firstName,
       lastName: data.lastName,
       serviceName: data.serviceName,
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
+      getmoreinfoUrl: data.getmoreinfoUrl,
       helpUrl: `${config.notifications.helpUrl}/contact-us`,
       isApprover: data.isApprover,
       orgName: data.orgName,
-      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}`,
+      returnUrl: `${config.notifications.profileUrl}/register/${data.invitationId}?id=email`,
       overrides: {},
       email: 'stephen.strange@new-avengers.test',
       feConnectUrl: 'https://feconnect.com',
+      source: data.source,
     });
   });
 });
