@@ -113,9 +113,9 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    console.log(send.mock.calls[0][2]);
+  
     expect(send.mock.calls[0][2]).toEqual({
-      approveEmail: data.approveEmail,
+      approverEmail: data.approverEmail,
       firstName: data.firstName,
       approverEmail: 'test@test.com',
       lastName: data.lastName,
