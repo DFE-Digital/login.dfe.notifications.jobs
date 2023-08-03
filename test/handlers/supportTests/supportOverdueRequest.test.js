@@ -75,12 +75,21 @@ describe('When handling supportoverduerequest job', () => {
     });
   });
 
-  it('then it should send email with subject', async () => {
+  it('then it should send email with subject for multiple requests', async () => {
     const handler = getHandler(config, logger);
 
     await handler.processor(jobData);
 
     expect(emailSend.mock.calls).toHaveLength(1);
-    expect(emailSend.mock.calls[0][3]).toBe('DfE Sign-in - '+jobData.requestsCount+' outstanding requests awaiting approval');
+    expect(emailSend.mock.calls[0][3]).toBe(`Action needed: ${jobData.requestsCount} outstanding requests awaiting approval on DfE Sign-in`);
+  });
+
+  it('then it should send email with subject for a single request', async () => {
+    const handler = getHandler(config, logger);
+    jobData.requestsCount = 1 
+    await handler.processor(jobData);
+
+    expect(emailSend.mock.calls).toHaveLength(1);
+    expect(emailSend.mock.calls[0][3]).toBe(`Action needed: ${jobData.requestsCount} outstanding request awaiting approval on DfE Sign-in`);
   });
 });
