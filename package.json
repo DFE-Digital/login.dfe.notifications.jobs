@@ -24,7 +24,7 @@
     "aws-sdk": "^2.279.1",
     "ejs": "^3.1.6",
     "lodash": "^4.17.21",
-    "login.dfe.dao": "4.0.3",
+    "login.dfe.dao": "4.0.4",
     "login.dfe.jwt-strategies": "git+https://github.com/DFE-Digital/login.dfe.jwt-strategies.git#v3.0.1",
     "login.dfe.kue": "git+https://github.com/DFE-Digital/login.dfe.kue.git#v0.11.6",
     "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v2.1",
