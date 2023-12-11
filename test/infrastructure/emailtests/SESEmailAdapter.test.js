@@ -109,16 +109,13 @@ describe('When sending an email using SES', () => {
     expect(awsSESSendEmail.mock.calls[0][0].Message.Body.Text.Data).toBe('some plain text');
   });
 
-  it('then it should throw an error if sending fails', async () => {
+  it('then it should reject with an error if sending fails', async () => {
     awsSESSendEmail.mockImplementation((_, done) => {
       done('test error');
     });
 
-    try {
+    await expect(async () => {
       await adapter.send(recipient, template, data, subject);
-      throw new Error('No error thrown');
-    } catch (e) {
-      expect(e).toBe('test error');
-    }
+    }).rejects.toBe('test error');
   });
 });
