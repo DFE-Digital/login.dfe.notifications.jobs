@@ -1,40 +1,39 @@
 jest.mock('./../../../lib/infrastructure/email/utils');
 jest.mock('aws-sdk');
 
+const aws = require('aws-sdk');
+const emailUtils = require('../../../lib/infrastructure/email/utils');
+const SESEmailAdapter = require('../../../lib/infrastructure/email/SESEmailAdapter');
+
 describe('When sending an email using SES', () => {
   const sender = 'noreply@secure.access';
   const recipient = 'user.one@unit.tests';
   const bccRecipient = ['secondUser@unit.tests'];
   const template = 'some-email';
   const data = {
-    item1: 'something'
+    item1: 'something',
   };
   const subject = 'some email to user';
 
   let awsSESSendEmail;
   let emailUtilsRenderEmailContent;
-
   let adapter;
 
   beforeEach(() => {
-    awsSESSendEmail = jest.fn().mockImplementation((data, done) => {
+    awsSESSendEmail = jest.fn().mockImplementation((_, done) => {
       done();
     });
-    const aws = require('aws-sdk');
-    aws.SES.mockImplementation(() => {
-      return {
-        sendEmail: awsSESSendEmail
-      }
-    });
+
+    aws.SES.mockImplementation(() => ({
+      sendEmail: awsSESSendEmail,
+    }));
 
     emailUtilsRenderEmailContent = jest.fn().mockReturnValue([
       { type: 'html', content: 'some html' },
       { type: 'text', content: 'some plain text' },
     ]);
-    const emailUtils = require('./../../../lib/infrastructure/email/utils');
     emailUtils.renderEmailContent = emailUtilsRenderEmailContent;
 
-    const SESEmailAdapter = require('./../../../lib/infrastructure/email/SESEmailAdapter');
     adapter = new SESEmailAdapter({
       notifications: {
         email: {
@@ -43,9 +42,9 @@ describe('When sending an email using SES', () => {
             accessSecret: 'accessKey',
             region: 'region',
             sender,
-          }
-        }
-      }
+          },
+        },
+      },
     }, {
       info: jest.fn(),
       error: jest.fn(),
@@ -111,13 +110,13 @@ describe('When sending an email using SES', () => {
   });
 
   it('then it should throw an error if sending fails', async () => {
-    awsSESSendEmail.mockImplementation((data, done) => {
+    awsSESSendEmail.mockImplementation((_, done) => {
       done('test error');
     });
 
     try {
       await adapter.send(recipient, template, data, subject);
-      throw 'no error thrown';
+      throw new Error('No error thrown');
     } catch (e) {
       expect(e).toBe('test error');
     }
