@@ -8,7 +8,8 @@ const SESEmailAdapter = require('../../../lib/infrastructure/email/SESEmailAdapt
 describe('When sending an email using SES', () => {
   const sender = 'noreply@secure.access';
   const recipient = 'user.one@unit.tests';
-  const bccRecipient = ['secondUser@unit.tests'];
+  const singleBccRecipient = 'firstUser@unit.tests';
+  const multipleBccRecipients = ['firstUser@unit.tests', 'secondUser@unit.tests'];
   const template = 'some-email';
   const data = {
     item1: 'something',
@@ -73,12 +74,28 @@ describe('When sending an email using SES', () => {
     expect(awsSESSendEmail.mock.calls[0][0].Destination.ToAddresses[0]).toBe(recipient);
   });
 
-  it('then it will send to the bcc addresses', async () => {
-    await adapter.send(recipient, template, data, subject, bccRecipient);
+  it('then it should send without any supplied BCC addresses, stating the BCC addresses are an empty array', async () => {
+    await adapter.send(recipient, template, data, subject);
+
+    expect(awsSESSendEmail.mock.calls.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(0);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual([]);
+  });
+
+  it('then it should send to a single string BCC address, converting it to an array', async () => {
+    await adapter.send(recipient, template, data, subject, singleBccRecipient);
 
     expect(awsSESSendEmail.mock.calls.length).toBe(1);
     expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(1);
-    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toBe(bccRecipient);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual([singleBccRecipient]);
+  });
+
+  it('then it should send to multiple BCC addresses in an array, without creating a 2d array', async () => {
+    await adapter.send(recipient, template, data, subject, multipleBccRecipients);
+
+    expect(awsSESSendEmail.mock.calls.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(multipleBccRecipients.length);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual(multipleBccRecipients);
   });
 
   it('then it should send an email with the subject', async () => {
