@@ -66,7 +66,7 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][3]).toBe(`You’ve been invited to join ${data.serviceName}`);
+    expect(send.mock.calls[0][3]).toBe('You’ve been invited to join DfE Sign-in');
   });
 
   it('then it should use register subject line if not self invoked', async () => {
