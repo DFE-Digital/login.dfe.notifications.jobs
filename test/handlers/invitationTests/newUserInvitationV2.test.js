@@ -1,7 +1,7 @@
 jest.mock('./../../../lib/infrastructure/email');
 
-const { getEmailAdapter } = require('./../../../lib/infrastructure/email');
-const { getHandler } = require('./../../../lib/handlers/invite/newUserInvitationV2');
+const { getEmailAdapter } = require('../../../lib/infrastructure/email');
+const { getHandler } = require('../../../lib/handlers/invite/newUserInvitationV2');
 
 const send = jest.fn();
 const logger = {
@@ -39,10 +39,9 @@ describe('when sending v2 user invitation', () => {
       getmoreinfoUrl: `${config.notifications.helpUrl}/moving-to-DfE-Sign-in`,
       code: 'ABC123',
       isApprover: false,
-      orgName:"Test Org",
-      approverEmail: "test@test.com",
+      orgName: 'Test Org',
+      approverEmail: 'test@test.com',
       source: 'source-location',
-
     };
 
     handler = getHandler(config, logger);
@@ -66,7 +65,7 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][3]).toBe(`You’ve been invited to join ${data.serviceName}`);
+    expect(send.mock.calls[0][3]).toBe('You’ve been invited to join DfE Sign-in');
   });
 
   it('then it should use register subject line if not self invoked', async () => {
@@ -79,12 +78,12 @@ describe('when sending v2 user invitation', () => {
   });
 
   it('then it should use override subject line if one is present', async () => {
-    data.overrides = {subject: "HELLO WORLD"};
+    data.overrides = { subject: 'HELLO WORLD' };
 
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][3]).toBe("HELLO WORLD");
+    expect(send.mock.calls[0][3]).toBe('HELLO WORLD');
   });
 
   it('then it should add html version of override body if one is present', async () => {
@@ -95,7 +94,7 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][2].overrides.htmlBody).toBe("<h1>This is a test</h1>\n\n<p>It should <em>ignore</em> the formatting in <em>here</em></p>");
+    expect(send.mock.calls[0][2].overrides.htmlBody).toBe('<h1>This is a test</h1>\n\n<p>It should <em>ignore</em> the formatting in <em>here</em></p>');
   });
 
   it('then it should add a plain text version of override body if one is present', async () => {
@@ -106,25 +105,23 @@ describe('when sending v2 user invitation', () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][2].overrides.textBody).toBe("This is a test\nIt should ignore the formatting in here");
+    expect(send.mock.calls[0][2].overrides.textBody).toBe('This is a test\nIt should ignore the formatting in here');
   });
 
   it('then it should send email using template data', async () => {
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-  
+
     expect(send.mock.calls[0][2]).toEqual({
       approverEmail: data.approverEmail,
       firstName: data.firstName,
-      approverEmail: 'test@test.com',
       lastName: data.lastName,
       serviceName: data.serviceName,
       requiresDigipass: data.requiresDigipass,
       selfInvoked: data.selfInvoked,
       code: data.code,
       getmoreinfoUrl: 'https://help.test/moving-to-DfE-Sign-in',
-      source: 'source-location',
       helpUrl: `${config.notifications.helpUrl}/contact-us`,
       isApprover: data.isApprover,
       orgName: data.orgName,

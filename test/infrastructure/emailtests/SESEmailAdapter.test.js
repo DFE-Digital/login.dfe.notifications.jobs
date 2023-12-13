@@ -1,40 +1,40 @@
 jest.mock('./../../../lib/infrastructure/email/utils');
 jest.mock('aws-sdk');
 
+const aws = require('aws-sdk');
+const emailUtils = require('../../../lib/infrastructure/email/utils');
+const SESEmailAdapter = require('../../../lib/infrastructure/email/SESEmailAdapter');
+
 describe('When sending an email using SES', () => {
   const sender = 'noreply@secure.access';
   const recipient = 'user.one@unit.tests';
-  const bccRecipient = ['secondUser@unit.tests'];
+  const singleBccRecipient = 'firstUser@unit.tests';
+  const multipleBccRecipients = ['firstUser@unit.tests', 'secondUser@unit.tests'];
   const template = 'some-email';
   const data = {
-    item1: 'something'
+    item1: 'something',
   };
   const subject = 'some email to user';
 
   let awsSESSendEmail;
   let emailUtilsRenderEmailContent;
-
   let adapter;
 
   beforeEach(() => {
-    awsSESSendEmail = jest.fn().mockImplementation((data, done) => {
+    awsSESSendEmail = jest.fn().mockImplementation((_, done) => {
       done();
     });
-    const aws = require('aws-sdk');
-    aws.SES.mockImplementation(() => {
-      return {
-        sendEmail: awsSESSendEmail
-      }
-    });
+
+    aws.SES.mockImplementation(() => ({
+      sendEmail: awsSESSendEmail,
+    }));
 
     emailUtilsRenderEmailContent = jest.fn().mockReturnValue([
       { type: 'html', content: 'some html' },
       { type: 'text', content: 'some plain text' },
     ]);
-    const emailUtils = require('./../../../lib/infrastructure/email/utils');
     emailUtils.renderEmailContent = emailUtilsRenderEmailContent;
 
-    const SESEmailAdapter = require('./../../../lib/infrastructure/email/SESEmailAdapter');
     adapter = new SESEmailAdapter({
       notifications: {
         email: {
@@ -43,9 +43,9 @@ describe('When sending an email using SES', () => {
             accessSecret: 'accessKey',
             region: 'region',
             sender,
-          }
-        }
-      }
+          },
+        },
+      },
     }, {
       info: jest.fn(),
       error: jest.fn(),
@@ -74,12 +74,28 @@ describe('When sending an email using SES', () => {
     expect(awsSESSendEmail.mock.calls[0][0].Destination.ToAddresses[0]).toBe(recipient);
   });
 
-  it('then it will send to the bcc addresses', async () => {
-    await adapter.send(recipient, template, data, subject, bccRecipient);
+  it('then it should send without any supplied BCC addresses, stating the BCC addresses are an empty array', async () => {
+    await adapter.send(recipient, template, data, subject);
+
+    expect(awsSESSendEmail.mock.calls.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(0);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual([]);
+  });
+
+  it('then it should send to a single string BCC address, converting it to an array', async () => {
+    await adapter.send(recipient, template, data, subject, singleBccRecipient);
 
     expect(awsSESSendEmail.mock.calls.length).toBe(1);
     expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(1);
-    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toBe(bccRecipient);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual([singleBccRecipient]);
+  });
+
+  it('then it should send to multiple BCC addresses in an array, without creating a 2d array', async () => {
+    await adapter.send(recipient, template, data, subject, multipleBccRecipients);
+
+    expect(awsSESSendEmail.mock.calls.length).toBe(1);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses.length).toBe(multipleBccRecipients.length);
+    expect(awsSESSendEmail.mock.calls[0][0].Destination.BccAddresses).toStrictEqual(multipleBccRecipients);
   });
 
   it('then it should send an email with the subject', async () => {
@@ -110,16 +126,13 @@ describe('When sending an email using SES', () => {
     expect(awsSESSendEmail.mock.calls[0][0].Message.Body.Text.Data).toBe('some plain text');
   });
 
-  it('then it should throw an error if sending fails', async () => {
-    awsSESSendEmail.mockImplementation((data, done) => {
+  it('then it should reject with an error if sending fails', async () => {
+    awsSESSendEmail.mockImplementation((_, done) => {
       done('test error');
     });
 
-    try {
+    await expect(async () => {
       await adapter.send(recipient, template, data, subject);
-      throw 'no error thrown';
-    } catch (e) {
-      expect(e).toBe('test error');
-    }
+    }).rejects.toBe('test error');
   });
 });
