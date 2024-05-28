@@ -25,9 +25,9 @@
     "ejs": "^3.1.6",
     "lodash": "^4.17.21",
     "login.dfe.dao": "4.2.0",
-    "login.dfe.jwt-strategies": "git+https://github.com/DFE-Digital/login.dfe.jwt-strategies.git#v4.0.0",
-    "login.dfe.kue": "git+https://github.com/DFE-Digital/login.dfe.kue.git#v0.11.6",
-    "login.dfe.request-promise-retry": "git+https://github.com/DFE-Digital/login.dfe.request-promise-retry.git#v3.0.0",
+    "login.dfe.jwt-strategies": "github:DFE-Digital/login.dfe.jwt-strategies#v4.0.0",
+    "login.dfe.kue": "github:DFE-Digital/login.dfe.kue#v0.11.6",
+    "login.dfe.request-promise-retry": "github:DFE-Digital/login.dfe.request-promise-retry#v3.0.0",
     "markdown": "^0.5.0",
     "notifications-node-client": "^7.0.0",
     "uuid": "^8.3.2"
