@@ -88,18 +88,18 @@ describe('when sending v2 user invitation', () => {
 
   it('then it should add html version of override body if one is present', async () => {
     data.overrides = {
-      body: '#This is a test\n\nIt should *ignore* the formatting in _here_',
+      body: '# This is a test\n\nIt should *ignore* the formatting in _here_',
     };
 
     await handler.processor(data);
 
     expect(send.mock.calls).toHaveLength(1);
-    expect(send.mock.calls[0][2].overrides.htmlBody).toBe('<h1>This is a test</h1>\n\n<p>It should <em>ignore</em> the formatting in <em>here</em></p>');
+    expect(send.mock.calls[0][2].overrides.htmlBody).toBe('<h1>This is a test</h1>\n<p>It should <em>ignore</em> the formatting in <em>here</em></p>');
   });
 
   it('then it should add a plain text version of override body if one is present', async () => {
     data.overrides = {
-      body: '#This is a test\n\nIt should *ignore* the formatting in _here_',
+      body: '# This is a test\n\nIt should *ignore* the formatting in _here_',
     };
 
     await handler.processor(data);
