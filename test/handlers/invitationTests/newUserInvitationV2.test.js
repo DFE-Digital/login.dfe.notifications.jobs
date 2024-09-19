@@ -54,6 +54,16 @@ describe('when sending v2 user invitation', () => {
     expect(send.mock.calls[0][1]).toBe('invitation');
   });
 
+  it('then it should send email using `invitation-entra-registration` template if `enableEntraSignIn` feature flag is enabled ', async () => {
+    config.entra = {
+      enableEntraSignIn: true,
+    };
+    await handler.processor(data);
+
+    expect(send.mock.calls).toHaveLength(1);
+    expect(send.mock.calls[0][1]).toBe('invitation-entra-registration');
+  });
+
   it('then it should send email to email address in data', async () => {
     await handler.processor(data);
 
