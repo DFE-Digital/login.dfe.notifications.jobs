@@ -1,6 +1,6 @@
 {
   "name": "login.dfe.notification.jobs",
-  "version": "6.3.4",
+  "version": "6.4.0",
   "description": "Job handlers for notifications",
   "main": "lib/index.js",
   "scripts": {
