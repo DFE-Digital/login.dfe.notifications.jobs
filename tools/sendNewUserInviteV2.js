@@ -6,7 +6,6 @@ const data = {
   lastName: 'User',
   code: 'ABC123X',
   serviceName: 'local test',
-  requiresDigipass: false,
   selfInvoked: false,
   invitationId: 'f5c3329d-a798-4e7e-aa15-b4b2c340df4a',
   overrides: {
